@@ -1,0 +1,29 @@
+problem Link : https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbVotU2paWE1PeTJ0M3I0bGQ5clB6cUtaLThpUXxBQ3Jtc0trbEpJaUluQzBOWXN0a0ljNmx1ck8yelRxblhSMjZVd3ZZRDkxcjNZQTlkRy03Mzd4NnA0NDN6RG5qSmExUlJnUDNNZHFBZXRnVk9MOUpHdjVJek4yTmJkUV9lMXFQb241dzM1TUZKc2lONFZ5dTQ3NA&q=https%3A%2F%2Fpractice.geeksforgeeks.org%2Fproblems%2Flongest-prefix-suffix2527%2F1%3Futm_source%3Dgeeksforgeeks%26utm_medium%3Darticle_practice_tab%26utm_campaign%3Darticle_practice_tab&v=sODA1BzFvsE
+
+Code :
+
+class Solution {
+  public:
+    int longestPrefixSuffix(string &s) {
+        vector<int> lps(s.size(), 0);
+        int pre = 0, suff = 1;
+        
+        while(suff < s.size()){
+            if(s[pre] == s[suff]){
+                lps[suff] = pre+1;
+                pre++;
+                suff++;
+            }
+            else{
+                if(pre == 0){
+                    lps[suff] = 0;
+                    suff++;
+                }
+                else{
+                    pre = lps[pre-1];
+                }
+            }
+        }
+        return lps.back();
+    }
+};
