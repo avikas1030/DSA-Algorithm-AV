@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool solve(string s, string s1) {
+    vector<int> lps(s1.size(), 0);
+    int pre = 0, suff = 1;
+    
+    while (suff < s1.size()) {
+        if (s1[pre] == s1[suff]) {
+            lps[suff] = pre + 1;
+            pre++;
+            suff++;
+        } else {
+            if (pre == 0) {
+                lps[suff] = 0;
+                suff++;
+            } else {
+                pre = lps[pre - 1];
+            }
+        }
+    }
+    
+    s = s + s;
+    int first = 0, sec = 0;
+    
+    while (first < s.size()) {
+        if (s[first] == s1[sec]) {
+            first++;
+            sec++;
+            if (sec == s1.size()) {
+                return true;
+            }
+        } else {
+            if (sec == 0) {
+                first++;
+            } else {
+                sec = lps[sec - 1];
+            }
+        }
+    }
+    return false;
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        string s, s1;
+        cin >> s >> s1;
+        bool ans = solve(s, s1);
+        cout << ans << endl;
+    }
+    return 0;
+}
