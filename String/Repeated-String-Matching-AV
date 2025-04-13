@@ -1,0 +1,69 @@
+// Problem Link : https://leetcode.com/problems/repeated-string-match/
+
+class Solution {
+public:
+    void findlps(string s2, vector<int>& lps){
+        int pre = 0;
+        int suff = 1;
+        while(suff < s2.size()){
+            if(s2[pre]==s2[suff]){
+                lps[suff] = pre + 1;
+                pre++;
+                suff++;
+            }
+            else{
+                if(pre == 0){
+                    lps[suff] = 0;
+                    suff++;
+                }
+                else{
+                    pre = lps[pre-1];
+                }
+            }
+        }
+    }
+
+    bool KMP(string s1, string s2){
+        vector<int> lps(s2.size(), 0);
+        findlps(s2, lps);
+        int pre = 0;
+        int suff = 0;
+        while(pre < s1.size() && suff < s2.size()){
+            if(s1[pre] == s2[suff]){
+                pre++;
+                suff++;
+            }
+            else{
+                if(suff == 0){
+                    pre++;
+                }
+                else{
+                    suff = lps[suff-1];
+                }
+            }
+        }
+        if(suff == s2.size()){
+            return true;
+        }
+        return false;
+    }
+
+    int repeatedStringMatch(string a, string b) {
+        if(a == b){
+            return 1;
+        }
+        string temp = a;
+        int repeat = 1;
+        while(temp.size() < b.size()){
+            temp += a;
+            repeat++;
+        }
+        if(KMP(temp, b)){
+            return repeat;
+        }
+        if(KMP(temp + a, b)){
+            return repeat + 1;
+        }
+        return -1;
+    }
+};
