@@ -1,0 +1,19 @@
+// problem link - https://www.hackerrank.com/challenges/crush/problem
+
+long arrayManipulation(int n, vector<vector<int>> queries) {
+    vector<long> av(n+1, 0);
+    for(auto &query : queries){
+        int start = query[0]-1;
+        int end = query[1];
+        int x = query[2];
+        av[start] += x;
+        av[end] -= x;
+    }
+    long ans = -1;
+    long cumsum = 0;
+    for(int i=0; i<n; i++){
+        cumsum += av[i];
+        ans = max(ans, cumsum);
+    }
+    return ans;
+}
