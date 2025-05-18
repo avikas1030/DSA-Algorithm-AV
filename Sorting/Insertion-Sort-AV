@@ -1,0 +1,35 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef {
+    public static void insertionSort(ArrayList<Integer> av) {
+        int n = av.size();
+        for (int i = 1; i < n; i++) {
+            int current = av.get(i); // store value
+            int j = i - 1;
+            while (j >= 0 && av.get(j) > current) {
+                av.set(j + 1, av.get(j)); // shift
+                j--;
+            }
+            av.set(j + 1, current); // insert
+        }
+    }
+
+    public static void main(String[] args) throws java.lang.Exception {
+        int n = 5;
+        ArrayList<Integer> av = new ArrayList<Integer>();
+
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i < n; i++) {
+            int num = sc.nextInt();
+            av.add(num);
+        }
+
+        insertionSort(av);
+        
+        for (int num : av) {
+            System.out.print(num + " ");
+        }
+    }
+}
