@@ -1,0 +1,33 @@
+// Java
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+    public static void selectionSort(ArrayList<Integer> av){
+        int n = av.size();
+        for(int i=0; i<n-1; i++){
+            int samllestIndex = i;
+            for(int j=i+1; j<n; j++){
+                if(av.get(samllestIndex) > av.get(j)){
+                    samllestIndex = j;
+                }
+            }
+            int temp = av.get(i);
+            av.set(i, av.get(samllestIndex));
+            av.set(samllestIndex, temp);
+            
+        }
+    }
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		ArrayList<Integer> av = new ArrayList<>(Arrays.asList(4,2,5,3,1));
+		selectionSort(av);
+		for(int num : av){
+		    System.out.print(num+" ");
+		}
+
+	}
+}
