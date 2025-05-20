@@ -1,0 +1,40 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+    public static int partition(int[] av, int st, int end){
+        int pivotEle = av[end];
+        int idx = st - 1;
+        for(int j=st; j<end; j++){
+            if(av[j] < pivotEle){
+                idx++;
+                int temp = av[idx];
+                av[idx] = av[j];
+                av[j] = temp;
+            }
+        }
+        idx++;
+        int temp = av[idx];
+        av[idx] = av[end];
+        av[end] = temp;
+        return idx;
+    }
+    public static void quickSort(int[] av, int st, int end){
+        if(st < end){
+            int pivotIndx = partition(av, st, end);
+            quickSort(av, st, pivotIndx-1);
+            quickSort(av, pivotIndx+1, end);
+        }
+    }
+	public static void main (String[] args) throws java.lang.Exception
+	{
+	    int[] av = {5,2,4,6,1,3};
+	    quickSort(av, 0, 5);
+	    for(int num : av){
+	        System.out.print(num+" ");
+	    }
+
+	}
+}
