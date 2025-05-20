@@ -39,3 +39,80 @@ class Solution
 	    return result;
 	}
 };
+
+// JAVA CODE 
+import java.util.*;
+
+public class Solution {
+
+    // DFS function
+    private static void DFS(List<List<Integer>> adj, int u, boolean[] visited, Stack<Integer> st) {
+        visited[u] = true;
+
+        for (int v : adj.get(u)) {
+            if (!visited[v]) {
+                DFS(adj, v, visited, st);
+            }
+        }
+
+        st.push(u);
+    }
+
+    // Topological Sort Function
+    public static int[] topoSort(int V, List<List<Integer>> adj) {
+        boolean[] visited = new boolean[V];
+        Stack<Integer> st = new Stack<>();
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                DFS(adj, i, visited, st);
+            }
+        }
+
+        int[] result = new int[V];
+        int idx = 0;
+        while (!st.isEmpty()) {
+            result[idx++] = st.pop();
+        }
+
+        return result;
+    }
+
+    // Main method to take input and execute
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input number of vertices and edges
+        System.out.print("Enter number of vertices: ");
+        int V = sc.nextInt();
+
+        System.out.print("Enter number of edges: ");
+        int E = sc.nextInt();
+
+        // Initialize adjacency list
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Input edges
+        System.out.println("Enter edges (from to):");
+        for (int i = 0; i < E; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v); // Directed edge from u to v
+        }
+
+        // Perform topological sort
+        int[] topoOrder = topoSort(V, adj);
+
+        // Output the result
+        System.out.println("Topological Order:");
+        for (int node : topoOrder) {
+            System.out.print(node + " ");
+        }
+
+        sc.close();
+    }
+}
+
