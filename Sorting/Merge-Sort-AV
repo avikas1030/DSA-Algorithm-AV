@@ -1,0 +1,49 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Codechef
+{
+    public static void merge(int[] arr, int st, int mid, int en){
+        int[] mergearr = new int[en-st+1];
+        int idx = 0;
+        int idx1 = st;
+        int idx2 = mid+1;
+        while(idx1 <= mid && idx2 <=en){
+            if(arr[idx1] <= arr[idx2]){
+                mergearr[idx++] = arr[idx1++];
+            }
+            else{
+                mergearr[idx++] = arr[idx2++];
+            }
+        }
+        while(idx1 <= mid){
+            mergearr[idx++] = arr[idx1++];
+        }
+        while(idx2 <= en){
+            mergearr[idx++] = arr[idx2++];
+        }
+        
+        for(int i=0, j=st; i<mergearr.length; i++,j++){
+            arr[j] = mergearr[i];
+        }
+    }
+    public static void mergeSort(int[] arr, int st, int en){
+        if(st >= en){
+            return;
+        }
+        int mid = st + (en-st)/2;
+        mergeSort(arr, st, mid);
+        mergeSort(arr, mid+1, en);
+        merge(arr, st, mid, en);
+    }
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		int[] arr = {6,4,3,7,1,9};
+		mergeSort(arr, 0, arr.length-1);
+		for(int num : arr){
+		    System.out.print(num+" ");
+		}
+
+	}
+}
