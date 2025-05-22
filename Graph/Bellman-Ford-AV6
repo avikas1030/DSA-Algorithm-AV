@@ -1,0 +1,68 @@
+
+// User function Template for C++
+
+class Solution {
+  public:
+    
+    vector<int> bellmanFord(int V, vector<vector<int>>& edges, int src) {
+    vector<int> ans(V, 1e8);
+    ans[src] = 0;
+    
+    // Relax all edges V-1 times
+    for(int count = 1; count <= V - 1; count++) {
+        for(auto &edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int wt = edge[2];
+            
+            if(ans[u] != 1e8 && ans[u] + wt < ans[v]) {
+                ans[v] = ans[u] + wt;
+            }
+        }
+    }
+    
+    // Check for negative weight cycles
+    for(auto &edge : edges) {
+        int u = edge[0];
+        int v = edge[1];
+        int wt = edge[2];
+        if(ans[u] != 1e8 && ans[u] + wt < ans[v]) { // Fixed condition
+            return {-1};
+        }
+    }
+    
+    return ans;
+}
+
+};
+
+// JAVA
+// User function Template for Java
+
+class Solution {
+    public int[] bellmanFord(int V, int[][] edges, int src) {
+        int[] ans = new int[V];
+        Arrays.fill(ans, Integer.MAX_VALUE);
+        ans[src] = 0;
+        for(int i=1; i<=V-1; i++){
+            for(int[] edge : edges){
+                int u = edge[0];
+                int v = edge[1];
+                int wt = edge[2];
+                if(ans[u] != Integer.MAX_VALUE && ans[u]+wt < ans[v]){
+                    ans[v] = ans[u]+wt;
+                }
+            }
+        }
+        
+        for(int[] edge : edges){
+            int u = edge[0];
+            int v = edge[1];
+            int wt = edge[2];
+            if(ans[u] != Integer.MAX_VALUE && ans[u]+wt < ans[v]){
+                return new int[] {-1};
+            }
+        }
+        return ans;
+    }
+}
