@@ -1,0 +1,57 @@
+/////////////////////////              C++                    /////////////////////////////
+
+//Position this line where user code will be pasted.
+class Solution {
+  public:
+    void dfs(int u, vector<bool>& visited, stack<int>& st, vector<vector<int>> &adj) {
+        visited[u] = true;
+        for (auto &v : adj[u]) {
+            if (!visited[v]) {
+                dfs(v, visited, st, adj);
+            }
+        }
+        st.push(u);
+    }
+
+    void dfstraversal(int u, vector<bool>& visited, vector<vector<int>>& reverseAdj) { // Pass by reference
+        visited[u] = true;
+        for (auto &v : reverseAdj[u]) {
+            if (!visited[v]) {
+                dfstraversal(v, visited, reverseAdj);
+            }
+        }
+    }
+    int kosaraju(vector<vector<int>> &adj) {
+        int V = adj.size();
+        stack<int> st;
+        vector<bool> visited(V, false);
+
+        // First DFS - Order the nodes by finish time
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                dfs(i, visited, st, adj);
+            }
+        }
+
+        // Reverse the graph
+        vector<vector<int>> reverseAdj(V);
+        for (int u = 0; u < V; u++) {
+            for (auto &v : adj[u]) {
+                reverseAdj[v].push_back(u);
+            }
+        }
+
+        // Second DFS - Count strongly connected components
+        fill(visited.begin(), visited.end(), false);
+        int scc = 0;
+        while (!st.empty()) {
+            int node = st.top();
+            st.pop();
+            if (!visited[node]) {
+                dfstraversal(node, visited, reverseAdj);
+                scc++;
+            }
+        }
+        return scc;
+    }
+};
