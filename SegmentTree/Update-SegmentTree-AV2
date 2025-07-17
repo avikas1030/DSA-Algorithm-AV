@@ -1,7 +1,7 @@
     int n;
     vector<int> segmentTree;
 
-    void buildSegmentTree(int idx, int val, int i, int l, int r, vector<int>& nums) {
+    void updateSegmentTree(int idx, int val, int i, int l, int r, vector<int>& nums) {
         if(l == r) {
             segmentTree[i] = val;
             return;
@@ -9,10 +9,10 @@
         
         int mid = l + (r-l)/2;
         if(idx <= mid){
-        buildSegmentTree(int idx, int val, 2*i+1, l, mid, nums);
+        updateSegmentTree(int idx, int val, 2*i+1, l, mid, nums);
         }
         else{
-        buildSegmentTree(int idx, int val, 2*i+2, mid+1, r, nums);
+        updateSegmentTree(int idx, int val, 2*i+2, mid+1, r, nums);
         }
         segmentTree[i] = segmentTree[2*i + 1] + segmentTree[2*i + 2];
     }
@@ -20,5 +20,5 @@
     NumArray(vector<int>& nums) {
         n = nums.size();
         segmentTree.resize(4*n);
-        buildSegmentTree(idx, val, 0, 0, n-1, nums);
+        updateSegmentTree(idx, val, 0, 0, n-1, nums);
     }
