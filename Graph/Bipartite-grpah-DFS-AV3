@@ -3,11 +3,11 @@ class Solution {
 public:
     bool DFS(int u, vector<vector<int>>& adj, vector<int>& color, int currcolor){
         color[u]=currcolor;
-        for(auto &n : adj[u]){
-            if(color[n]==color[src])return false;
-            if(color[n]==-1){
+        for(auto &v : adj[u]){
+            if(color[v]==color[u])return false;
+            if(color[v]==-1){
                 int colorcurrent = 1-currcolor;
-                if(!DFS(n,adj,color,colorcurrent)){
+                if(!DFS(v,adj,color,colorcurrent)){
                     return false;
                 }
 
