@@ -2,9 +2,9 @@ int rangeSum(int start, int end, int idx, int l, int r){
   if(l > end || r < start){
     return 0;
     }
-  if(l >= start && r <= end){
+  if (l <= start && end <= r) {
     return segmentTree[idx];
-    }
+}
   int mid = l + ( r - l)/2;
   return rangeSum(start, end, 2*idx+1, l, mid) + rangeSum(start, end, 2*idx+2, r);
 }
