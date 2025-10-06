@@ -1,0 +1,33 @@
+# poblem link - https://leetcode.com/problems/maximum-alternating-subsequence-sum/description/
+# 1. Recurssion - 
+class Solution {
+public:
+    int n;
+    long long dp[1000001][2];
+    long long solve(int idx, vector<int>& nums, bool iseven) {
+        
+        if(idx >= n) {
+            return 0;
+        }
+        if(dp[idx][iseven] != -1)
+            return dp[idx][iseven];
+        
+        long long skip = solve(idx+1, nums, iseven);
+        
+        long long val = nums[idx];
+        if(iseven == false) {
+            val = -val;
+        }
+        
+        long long take = solve(idx+1, nums, !iseven) + val;
+        
+        return dp[idx][iseven] = max(skip, take);
+        
+    }
+    
+    long long maxAlternatingSum(vector<int>& nums) {
+        n = nums.size();
+        memset(dp, -1, sizeof(t));
+        return solve(0, nums, true);
+    }
+};
