@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+enum EdgeType { TREE, BACK, FORWARD, CROSS };
+int timer = 0;
+
+void dfs(int u, vector<vector<int>>& adj, vector<int>& vis,
+         vector<int>& in, vector<int>& out, vector<bool>& inStack) {
+    vis[u] = 1;
+    inStack[u] = true;
+    in[u] = ++timer;
+
+    for (int v : adj[u]) {
+        if (!vis[v]) {
+            cout << "Tree Edge: " << u << " -> " << v << endl;
+            dfs(v, adj, vis, in, out, inStack);
+        } 
+        else if (inStack[v])
+            cout << "Back Edge: " << u << " -> " << v << endl;
+        else if (in[u] < in[v])
+            cout << "Forward Edge: " << u << " -> " << v << endl;
+        else
+            cout << "Cross Edge: " << u << " -> " << v << endl;
+    }
+
+    inStack[u] = false;
+    out[u] = ++timer;
+}
