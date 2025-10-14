@@ -1,0 +1,28 @@
+# probelm link - https://leetcode.com/problems/palindromic-substrings/
+# code - 
+class Solution {
+public:
+    int countSubstrings(string s) {
+        int n = s.size();
+        int count = 0;
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+
+        for(int l = 1; l <= n; l++){
+            for(int i = 0; i+l <= n; i++){
+                int j = i + l -1;
+                if(i == j){
+                    dp[i][i] = true;
+                }
+                else if(i+1 == j){
+                    dp[i][j] = (s[i] == s[j]);
+                }
+                else{
+                    dp[i][j] = ((s[i] == s[j]) && (dp[i+1][j-1] == true));
+                }
+                count += dp[i][j];
+            }
+        }
+        return count;
+        
+    }
+};
