@@ -1,0 +1,36 @@
+Link : https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/description/
+Code :
+
+class Solution {
+    public int[][] dp = new int[301][11]; 
+    public int solve(int[] jobDifficulty, int idx, int n, int d){
+        if(d==1){
+            int maxD = jobDifficulty[idx];
+            for(int i=idx; i<n; i++){
+                maxD = Math.max(maxD, jobDifficulty[i]);
+            }
+            return maxD;
+        }
+        if(dp[idx][d] !=-1){
+            return dp[idx][d];
+        }
+        int maxDayDiff = Integer.MIN_VALUE;
+        int ans = Integer.MAX_VALUE;
+        for(int i=idx; i<=n-d; i++){
+            maxDayDiff = Math.max(maxDayDiff, jobDifficulty[i]);
+            ans = Math.min(ans, maxDayDiff+solve(jobDifficulty, i+1, n, d-1));
+        }
+        return dp[idx][d] = ans;
+    }
+    public int minDifficulty(int[] jobDifficulty, int d) {
+        
+        int n = jobDifficulty.length;
+        if(n<d){
+            return -1;
+        }
+        for(int[] row : dp){
+            Arrays.fill(row, -1);
+        }
+        return solve(jobDifficulty, 0, n, d);
+    }
+}
