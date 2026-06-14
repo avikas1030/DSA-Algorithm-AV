@@ -1,0 +1,46 @@
+Link : https://leetcode.com/problems/maximum-profit-in-job-scheduling/description/
+Code :
+
+import java.util.*;
+
+class Solution {
+    public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
+
+        int n = startTime.length;
+
+        List<int[]> jobs = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            jobs.add(new int[]{startTime[i], endTime[i], profit[i]});
+        }
+
+        // Sort by start time
+        Collections.sort(jobs, (a, b) -> Integer.compare(a[0], b[0]));
+
+        // Min Heap based on end time
+        PriorityQueue<int[]> pq = new PriorityQueue<>(
+                (a, b) -> Integer.compare(a[0], b[0])
+        );
+
+        int maxProfit = 0;
+
+        for (int[] job : jobs) {
+
+            int start = job[0];
+            int end = job[1];
+            int currProfit = job[2];
+
+            while (!pq.isEmpty() && start >= pq.peek()[0]) {
+                maxProfit = Math.max(maxProfit, pq.poll()[1]);
+            }
+
+            pq.offer(new int[]{end, currProfit + maxProfit});
+        }
+
+        while (!pq.isEmpty()) {
+            maxProfit = Math.max(maxProfit, pq.poll()[1]);
+        }
+
+        return maxProfit;
+    }
+}
